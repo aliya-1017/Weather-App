@@ -94,3 +94,6 @@ body {
 .search-button:hover {
     background-color: #004d40;
 }
+.weather-card{
+    display: none;
+}

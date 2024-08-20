@@ -11,18 +11,47 @@
         <h1 class="app-title">Weather App</h1>
         <div class="weather-card">
             <div class="weather-info">
-                <h2 class="city-name">New York</h2>
-                <p class="temperature">21°C</p>
-                <p class="description">Clear Sky</p>
+                <h2 class="city-name" id="city">New York</h2>
+                <p class="temperature" id="city-temperature">21°C</p>
+                <p class="description" id="city-description">Clear Sky</p>
             </div>
             <div class="weather-icon">
                 <img src="cloud.png" alt="Weather Icon">
             </div>
         </div>
-        <form class="search-form">
-            <input type="text" class="search-input" placeholder="Enter city...">
+        <form class="search-form" id="myForm" onsubmit="handleSubmit(event)">
+            <input id="city-name" type="text" name="city" class="search-input" placeholder="Enter city...">
             <button type="submit" class="search-button">Search</button>
         </form>
     </div>
+    <script>
+      function handleSubmit(event)
+      {
+        event.preventDefault();
+        let cityName=document.getElementById("city-name").value;
+        console.log(cityName)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=f117f2ede7b03b3bc30b639c36a0f0ab`, {
+        method: 'POST',
+    })
+    .then(function(response)
+    { 
+        
+        return response.json()
+    }).then(function(data){ 
+        console.log('Success:', data)
+        console.log("weather",data.main.temp)
+        document.getElementsByClassName("weather-card")[0].style.display='flex';
+        document.getElementById("city").innerHTML=cityName
+        document.getElementById("city-temperature").innerHTML=data.main.temp
+        document.getElementById("city-description").innerHTML=data.weather[0].description
+    }
+
+)
+    .catch(error => console.error('Error:', error));
+      }
+    </script>
+
 </body>
+
 </html>
+
